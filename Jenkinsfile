@@ -11,7 +11,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build("saimsaleeem/heartmodel", "-f ${env.DOCKERFILE_PATH} .")
+                    docker.build("saimsaleeem/heartmodel:latest", "-f ${env.DOCKERFILE_PATH} .")
                 }
             }
         }
