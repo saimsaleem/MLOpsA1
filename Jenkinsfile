@@ -1,30 +1,43 @@
 pipeline {
     agent any
-
+    
     stages {
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-
-        stage('Build and Push Docker Image') {
+        stage('Build and Test') {
             steps {
                 script {
-                    docker.build('your-image-name:latest')
-                    docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials') {
-                        docker.image('your-image-name:latest').push('latest')
+                    // Run your build and test commands here
+                    sh 'python -m unittest test.py'
+                }
+            }
+        }
+        
+        stage('Containerize') {
+            steps {
+                script {
+                    // Build and tag the Docker image
+                    docker.build('saimsaleem/heart_model:latest')
+                }
+            }
+        }
+        
+        stage('Push to Docker Hub') {
+            steps {
+                script {
+                    // Push the Docker image to Docker Hub
+                    docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials-id') {
+                        docker.image('your-docker-username/your-image-name:latest').push('latest')
                     }
                 }
             }
         }
     }
-
+    
     post {
         success {
-            mail to: 'admin@example.com',
-                 subject: 'Jenkins Job Successful',
-                 body: 'The Jenkins job to containerize and push the application to Docker Hub was successful.'
-        }
-    }
+            echo 'Pipeline succeeded!'
+        }
+        failure {
+            echo 'Pipeline failed!'
+        }
+    }
 }
