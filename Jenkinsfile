@@ -19,17 +19,6 @@ pipeline {
                 }
             }
         }
-        
-        stage('Push to Docker Hub') {
-            steps {
-                script {
-                    // Push the Docker image to Docker Hub
-                    docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials-id') {
-                        docker.image('your-docker-username/your-image-name:latest').push('latest')
-                    }
-                }
-            }
-        }
     }
     
     post {
