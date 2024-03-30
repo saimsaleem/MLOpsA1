@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         DOCKER_HUB_CREDENTIALS = '966f195f-0748-4c7b-971e-5597de11a2be'
-        DOCKER_IMAGE_NAME = 'saimsaleem/heart_model'
+        DOCKER_IMAGE_NAME = 'saimsaleem/heartmodel'
         DOCKERFILE_PATH = 'Dockerfile' 
     }
 
@@ -11,7 +11,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build("saimsaleem/heart_model", "-f ${env.DOCKERFILE_PATH} .")
+                    docker.build("saimsaleem/heartmodel", "-f ${env.DOCKERFILE_PATH} .")
                 }
             }
         }
