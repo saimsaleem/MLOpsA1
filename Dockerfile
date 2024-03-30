@@ -11,13 +11,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the rest of the application's code into the container
-COPY . /app
-
-# Run your build and test commands (replace with your actual commands)
-RUN python -m unittest test.py
-
-# Expose the port your application runs on (if applicable)
-EXPOSE 8000
+COPY . .
 
 # Command to run the application (replace with your actual command)
-CMD [ "python", "./app.py" ]
+CMD [ "python", "app.py" ]
