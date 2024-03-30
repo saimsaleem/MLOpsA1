@@ -28,7 +28,7 @@ class TestHeartDiseasePrediction(unittest.TestCase):
         # Test the accuracy of the model
         y_pred = self.model.predict(self.X_test_scaled)
         accuracy = accuracy_score(self.y_test, y_pred)
-        self.assertAlmostEqual(accuracy, 0.7, places=0)  # Adjust expected accuracy as needed
+        self.assertAlmostEqual(accuracy, 0.79, places=0)  # Adjust expected accuracy as needed
 
     def test_classification_report(self):
         # Test the classification report
