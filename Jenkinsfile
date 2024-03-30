@@ -1,20 +1,26 @@
 pipeline {
     agent any
 
+    environment {
+        DOCKER_HUB_CREDENTIALS = '966f195f-0748-4c7b-971e-5597de11a2be'
+        DOCKER_IMAGE_NAME = 'saimsaleem/heart_model'
+        DOCKERFILE_PATH = 'Dockerfile' 
+    }
+
     stages {
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build('saimsaleem/heart_model:latest')
+                    docker.build("saimsaleem/heart_model", "-f ${env.DOCKERFILE_PATH} .")
                 }
             }
         }
 
-        stage('Push to Docker Hub') {
+        stage('Push Docker Image to Docker Hub') {
             steps {
                 script {
-                    docker.withRegistry('https://registry.hub.docker.com', 'docker-hub-credentials-id') {
-                        docker.image('your-docker-username/your-image-name:latest').push('latest')
+                    docker.withRegistry('https://index.docker.io/v1/', env.DOCKER_HUB_CREDENTIALS) {
+                        docker.image(env.DOCKER_IMAGE_NAME).push('latest')
                     }
                 }
             }
@@ -23,10 +29,10 @@ pipeline {
 
     post {
         success {
-            echo 'Pipeline succeeded!'
+            echo 'Docker image build and push successful!'
         }
         failure {
-            echo 'Pipeline failed!'
+            echo 'Docker image build or push failed!'
         }
     }
 }
